@@ -4,9 +4,6 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// كود أيقونة SVG مدمج (محفظة مالية بلون بنفسجي يناسب التطبيق)
-const defaultIcon = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%237c3aed'/><path d='M128 160h256c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32z' fill='none' stroke='%23fff' stroke-width='24'/><path d='M352 256h48v64h-48c-17.7 0-32-14.3-32-32s14.3-32 32-32z' fill='%23fff'/></svg>";
-
 export default defineConfig(() => {
   return {
     // يجب أن يطابق اسم المستودع بالضبط
@@ -17,24 +14,34 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
+        // نطلب من البلجن نسخ الأيقونات إلى مجلد البناء تلقائياً
+        includeAssets: ['icon-192.png', 'icon-512.png'],
+        // إعدادات إضافية لضمان تحديث الكاش وعدم تعليق التطبيق
+        workbox: {
+          cleanupOutdatedCaches: true,
+          clientsClaim: true,
+          skipWaiting: true,
+          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        },
         manifest: {
           name: 'المحفظة المالية الذكية',
           short_name: 'المحفظة',
           description: 'Financial portfolio, work accounts, diary, tools',
-          theme_color: '#7c3aed', // تم تغييره للبنفسجي ليتطابق مع الأيقونة والموقع
+          theme_color: '#7c3aed',
           background_color: '#ffffff',
           display: 'standalone',
           start_url: '/Portfolio-and-work/',
+          // تم تغيير الأيقونات لتشير إلى ملفات PNG حقيقية بدلاً من الكود المدمج
           icons: [
             {
-              src: defaultIcon,
+              src: 'icon-192.png',
               sizes: '192x192',
-              type: 'image/svg+xml',
+              type: 'image/png',
             },
             {
-              src: defaultIcon,
+              src: 'icon-512.png',
               sizes: '512x512',
-              type: 'image/svg+xml',
+              type: 'image/png',
               purpose: 'any maskable', 
             },
           ],
