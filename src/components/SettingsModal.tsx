@@ -53,14 +53,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const isRTL = language === 'ar';
 
-  // All hooks called unconditionally at top level
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [activeTheme, setActiveTheme] = useState<string>(state.settings?.theme || 'purple');
   const [currency, setCurrency] = useState<string>(state.settings?.currency || 'ر.س');
   
-  // 🔴 تم إزالة الإيميل الثابت من هنا
-  const [userEmail, setUserEmail] = useState<string>(state.settings?.userEmail || '');
+  // 🔴 تم وضع الإيميل العشوائي هنا
+  const [userEmail, setUserEmail] = useState<string>(state.settings?.userEmail || 'user@example.com');
   
   const [storageInfo, setStorageInfo] = useState<{ usedBytes: number; quotaBytes: number } | null>(null);
 
@@ -75,8 +74,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       setActiveTheme(state.settings?.theme || 'purple');
       setCurrency(state.settings?.currency || 'ر.س');
       
-      // 🔴 تم إزالة الإيميل الثابت من هنا أيضاً
-      setUserEmail(state.settings?.userEmail || '');
+      // 🔴 تم وضع الإيميل العشوائي هنا
+      setUserEmail(state.settings?.userEmail || 'user@example.com');
       
       setSecurityType(state.security?.type || 'off');
       setNewPin(state.security?.pin || '');
@@ -100,8 +99,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     onUpdateSettings({
       theme: activeTheme,
       currency: currency.trim() || 'ر.س',
-      // 🔴 لم يعد يجبر النظام على وضع الإيميل القديم
-      userEmail: userEmail.trim(), 
+      // 🔴 إذا مسح المستخدم الإيميل، سيعود للإيميل العشوائي
+      userEmail: userEmail.trim() || 'user@example.com', 
     });
 
     onUpdateSecurity({
@@ -254,8 +253,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             type="email"
             value={userEmail}
             onChange={(e) => setUserEmail(e.target.value)}
-            // 🔴 تم تغيير النص الإرشادي هنا
-            placeholder={isRTL ? 'أدخل بريدك الإلكتروني هنا...' : 'Enter your email...'}
+            placeholder="user@example.com"
             className="w-full rounded-xl border border-purple-900/50 bg-[#101026] p-2 text-xs font-bold text-white outline-none"
           />
         </div>
