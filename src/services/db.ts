@@ -1,11 +1,9 @@
 import { AppState } from '../types';
 import { parseAndInspectBackup } from './backupParser';
 
-// 🔴 تم تغيير اسم القاعدة إلى v15 لإجبار المتصفح على إنشاء قاعدة جديدة وتجاهل القديمة
 const DB_NAME = 'SmartWalletDB_v15'; 
 const DB_VERSION = 1;
 const STATE_STORE = 'app_state';
-// 🔴 تم تغيير مفتاح التخزين الاحتياطي أيضاً
 const LEGACY_STORAGE_KEY = 'wallet_v15'; 
 
 export const DEFAULT_RATES: Record<string, number> = {
@@ -54,7 +52,7 @@ export const INITIAL_STATE: AppState = {
     theme: 'purple',
     autoCloudSync: false,
     syncKey: 'WALLET-' + Math.random().toString(36).substring(2, 8).toUpperCase(),
-    userEmail: '',
+    userEmail: 'user@example.com', // 🔴 تم تغيير الإيميل هنا إلى إيميل عشوائي
   },
   security: {
     enabled: false,
