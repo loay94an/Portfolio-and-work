@@ -1,10 +1,12 @@
 import { AppState } from '../types';
 import { parseAndInspectBackup } from './backupParser';
 
-const DB_NAME = 'SmartWalletDB_v14';
+// 🔴 تم تغيير اسم القاعدة إلى v15 لإجبار المتصفح على إنشاء قاعدة جديدة وتجاهل القديمة
+const DB_NAME = 'SmartWalletDB_v15'; 
 const DB_VERSION = 1;
 const STATE_STORE = 'app_state';
-const LEGACY_STORAGE_KEY = 'wallet_v14';
+// 🔴 تم تغيير مفتاح التخزين الاحتياطي أيضاً
+const LEGACY_STORAGE_KEY = 'wallet_v15'; 
 
 export const DEFAULT_RATES: Record<string, number> = {
   SAR: 3.75,
@@ -23,7 +25,6 @@ export const DEFAULT_RATES: Record<string, number> = {
   DZD: 135.0,
 };
 
-// تم تفريغ البيانات التجريبية هنا لجعل التطبيق يبدأ نظيفاً
 export const INITIAL_STATE: AppState = {
   transactions: [],
   categories: [
@@ -33,7 +34,7 @@ export const INITIAL_STATE: AppState = {
     { id: 'cat_bills', name: 'فواتير واشتراكات', type: 'expense' },
     { id: 'cat_freelance', name: 'أعمال حرة', type: 'income' },
     { id: 'cat_shopping', name: 'تسوق وملابس', type: 'expense' },
-  ], // أبقينا على التصنيفات الأساسية لكي يعمل التطبيق، يمكنك حذفها إذا أردت
+  ],
   people: [],
   debts: [],
   payments: [],
@@ -53,7 +54,7 @@ export const INITIAL_STATE: AppState = {
     theme: 'purple',
     autoCloudSync: false,
     syncKey: 'WALLET-' + Math.random().toString(36).substring(2, 8).toUpperCase(),
-    userEmail: '', // تم مسح البريد الإلكتروني
+    userEmail: '',
   },
   security: {
     enabled: false,
@@ -98,7 +99,6 @@ class IndexedDBStorage {
     return this.dbPromise;
   }
 
-  // Load app state from IndexedDB (with fallback and migration from localStorage)
   async loadState(): Promise<AppState> {
     try {
       if (this.isIndexedDBSupported) {
@@ -117,7 +117,6 @@ class IndexedDBStorage {
         });
 
         if (stateFromIDB) {
-          // Verify required arrays exist
           return this.sanitizeState(stateFromIDB);
         }
       }
@@ -125,13 +124,11 @@ class IndexedDBStorage {
       console.warn('Could not read state from IndexedDB, falling back to localStorage:', err);
     }
 
-    // Check localStorage fallback or legacy data migration
     try {
       const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
       if (legacyRaw) {
         const parsed = JSON.parse(legacyRaw);
         const migrated = this.sanitizeState({ ...INITIAL_STATE, ...parsed });
-        // Save to IndexedDB
         await this.saveState(migrated);
         return migrated;
       }
@@ -139,25 +136,20 @@ class IndexedDBStorage {
       console.warn('Error reading legacy localStorage:', e);
     }
 
-    // Default state if nothing found
     const defaultState = this.sanitizeState(INITIAL_STATE);
     await this.saveState(defaultState);
     return defaultState;
   }
 
-  // Save app state to IndexedDB and backup mirror to localStorage
   async saveState(state: AppState): Promise<void> {
     const updatedState = {
       ...state,
       lastUpdated: new Date().toISOString(),
     };
 
-    // Mirror to localStorage as instant sync fallback
     try {
       localStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(updatedState));
-    } catch (e) {
-      // Storage quota or private mode
-    }
+    } catch (e) {}
 
     if (!this.isIndexedDBSupported) return;
 
@@ -176,7 +168,6 @@ class IndexedDBStorage {
     }
   }
 
-  // Clear all data
   async clearAll(): Promise<void> {
     try {
       localStorage.removeItem(LEGACY_STORAGE_KEY);
@@ -202,7 +193,6 @@ class IndexedDBStorage {
     }
   }
 
-  // Get storage usage estimate
   async getStorageInfo(): Promise<{ usedBytes: number; quotaBytes: number; isPersisted: boolean }> {
     let usedBytes = 0;
     let quotaBytes = 0;
@@ -225,7 +215,6 @@ class IndexedDBStorage {
     return { usedBytes, quotaBytes, isPersisted };
   }
 
-  // Ensure state structure is always complete and valid using universal parser
   public sanitizeState(raw: any): AppState {
     if (!raw) return INITIAL_STATE;
     const parsed = parseAndInspectBackup(raw);
