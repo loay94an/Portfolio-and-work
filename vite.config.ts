@@ -4,8 +4,8 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// كود أيقونة SVG مدمج (محفظة مالية) 
-const defaultIcon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzI1NjNlYiIvPjxwYXRoIGQ9Ik0xMjggMTYwaDI1NmMxNy43IDAgMzIgMTQuMyAzMiAzMnYxNjBjMCAxNy43LTE0LjMgMzItMzIgMzJIMTI4Yy0xNy43IDAtMzItMTQuMy0zMi0zMlYxOTJjMC0xNy43IDE0LjMtMzIgMzItMzJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMjQiLz48cGF0aCBkPSJNMzUyIDI1Nmg0OHY2NGgtNDhjLTE3LjcgMC0zMi0xNC4zLTMyLTMyczE0LjMtMzIgMzItMzJ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+";
+// كود أيقونة SVG مدمج (محفظة مالية بلون بنفسجي يناسب التطبيق)
+const defaultIcon = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%237c3aed'/><path d='M128 160h256c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32z' fill='none' stroke='%23fff' stroke-width='24'/><path d='M352 256h48v64h-48c-17.7 0-32-14.3-32-32s14.3-32 32-32z' fill='%23fff'/></svg>";
 
 export default defineConfig(() => {
   return {
@@ -21,7 +21,7 @@ export default defineConfig(() => {
           name: 'المحفظة المالية الذكية',
           short_name: 'المحفظة',
           description: 'Financial portfolio, work accounts, diary, tools',
-          theme_color: '#2563eb',
+          theme_color: '#7c3aed', // تم تغييره للبنفسجي ليتطابق مع الأيقونة والموقع
           background_color: '#ffffff',
           display: 'standalone',
           start_url: '/Portfolio-and-work/',
