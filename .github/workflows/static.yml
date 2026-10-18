@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # أو اسم الفرع الرئيسي لديك
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -22,18 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: "20"
-          cache: "npm" # إذا كنت تستخدم npm، أو "bun" إذا كنت تستخدم bun
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci # أو npm install إذا لم يكن لديك package-lock.json
+        run: bun install
 
       - name: Build
-        run: npm run build
-
+        run: bun run build
+        
       - name: Add .nojekyll
         run: touch ./dist/.nojekyll
 
