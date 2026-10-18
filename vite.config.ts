@@ -4,6 +4,9 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+// كود أيقونة SVG مدمج (محفظة مالية) 
+const defaultIcon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzI1NjNlYiIvPjxwYXRoIGQ9Ik0xMjggMTYwaDI1NmMxNy43IDAgMzIgMTQuMyAzMiAzMnYxNjBjMCAxNy43LTE0LjMgMzItMzIgMzJIMTI4Yy0xNy43IDAtMzItMTQuMy0zMi0zMlYxOTJjMC0xNy43IDE0LjMtMzIgMzItMzJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMjQiLz48cGF0aCBkPSJNMzUyIDI1Nmg0OHY2NGgtNDhjLTE3LjcgMC0zMi0xNC4zLTMyLTMyczE0LjMtMzIgMzItMzJ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+";
+
 export default defineConfig(() => {
   return {
     // يجب أن يطابق اسم المستودع بالضبط
@@ -13,32 +16,26 @@ export default defineConfig(() => {
       react(), 
       tailwindcss(),
       VitePWA({
-        registerType: 'autoUpdate', // تحديث التطبيق تلقائياً
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png'], // ملفات إضافية
+        registerType: 'autoUpdate',
         manifest: {
           name: 'المحفظة المالية الذكية',
           short_name: 'المحفظة',
           description: 'Financial portfolio, work accounts, diary, tools',
-          theme_color: '#ffffff',
+          theme_color: '#2563eb',
           background_color: '#ffffff',
-          display: 'standalone', // ليعمل كتطبيق مستقل
-          start_url: '/Portfolio-and-work/', // مهم جداً ليعمل مع المسار الفرعي
+          display: 'standalone',
+          start_url: '/Portfolio-and-work/',
           icons: [
             {
-              src: 'pwa-192x192.png',
+              src: defaultIcon,
               sizes: '192x192',
-              type: 'image/png',
+              type: 'image/svg+xml',
             },
             {
-              src: 'pwa-512x512.png',
+              src: defaultIcon,
               sizes: '512x512',
-              type: 'image/png',
-            },
-            {
-              src: 'pwa-512x512.png',
-              sizes: '512x512',
-              type: 'image/png',
-              purpose: 'any maskable', // لأيقونات الأندرويد
+              type: 'image/svg+xml',
+              purpose: 'any maskable', 
             },
           ],
         },
@@ -52,10 +49,7 @@ export default defineConfig(() => {
     },
 
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
-      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
   };
