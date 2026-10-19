@@ -14,8 +14,8 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        // نطلب من البلجن نسخ الأيقونات إلى مجلد البناء تلقائياً
-        includeAssets: ['icon-192.png', 'icon-512.png'],
+        // نطلب من البلجن نسخ مجلد الأيقونات بالكامل إلى مجلد البناء
+        includeAssets: ['icons/*.png'],
         // إعدادات إضافية لضمان تحديث الكاش وعدم تعليق التطبيق
         workbox: {
           cleanupOutdatedCaches: true,
@@ -31,15 +31,45 @@ export default defineConfig(() => {
           background_color: '#ffffff',
           display: 'standalone',
           start_url: '/Portfolio-and-work/',
-          // تم تغيير الأيقونات لتشير إلى ملفات PNG حقيقية بدلاً من الكود المدمج
+          // قراءة الأيقونات من مجلد icons/
           icons: [
             {
-              src: 'icon-192.png',
+              src: 'icons/icon-72.png',
+              sizes: '72x72',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-96.png',
+              sizes: '96x96',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-128.png',
+              sizes: '128x128',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-144.png',
+              sizes: '144x144',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-152.png',
+              sizes: '152x152',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-192.png',
               sizes: '192x192',
               type: 'image/png',
             },
             {
-              src: 'icon-512.png',
+              src: 'icons/icon-384.png',
+              sizes: '384x384',
+              type: 'image/png',
+            },
+            {
+              src: 'icons/icon-512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any maskable', 
